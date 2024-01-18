@@ -32,8 +32,7 @@ public class Depot {
      * @param amount The amount to be deposited.
      */
     public void deposit(double amount) {
-        //TODO: Implement
-        throw new UnsupportedOperationException("This method is not implemented yet");
+        balance += amount;
     }
 
     /**
