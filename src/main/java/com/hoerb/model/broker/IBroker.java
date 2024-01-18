@@ -1,5 +1,6 @@
 package com.hoerb.model.broker;
 
+import com.hoerb.exception.AccountNotFoundException;
 import com.hoerb.exception.OrderPlacementException;
 import com.hoerb.exception.SecurityNotFoundException;
 import com.hoerb.model.*;
@@ -48,6 +49,36 @@ public interface IBroker {
      * @return A list of user accounts associated with the broker.
      */
     List<Account> getAccounts();
+
+    /**
+     * Adds a new user account to the broker.
+     *
+     * @param account The user account to be added.
+     * @return {@code true} if the account is successfully added; {@code false} if the account already exists.
+     */
+    boolean addAccount(Account account);
+
+    /**
+     * Adds a list of user accounts to the broker.
+     *
+     * @param accounts The list of user accounts to be added.
+     * @return A list of booleans indicating the success status for each account addition.
+     * Each element in the list corresponds to the success status of adding the corresponding account
+     * in the input list. The value {@code true} indicates successful addition, and {@code false} indicates
+     * that the account already exists.
+     */
+    List<Boolean> addAccounts(List<Account> accounts);
+
+    /**
+     * Retrieves the {@link Account} associated with the specified account name.
+     * <p>
+     * This method searches for an account based on the provided {@code accountName}.
+     *
+     * @param accountName The name of the account to retrieve.
+     * @return The {@code Account} object associated with the specified account name.
+     * @throws AccountNotFoundException If no account is found with the given name.
+     */
+    Account getAccount(String accountName) throws AccountNotFoundException;
 
     /**
      * Retrieves a list of all securities available within the broker.
