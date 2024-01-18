@@ -2,8 +2,7 @@ import com.hoerb.exception.InsufficientFundsException;
 import com.hoerb.model.Depot;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DepotTest {
 
@@ -39,5 +38,17 @@ public class DepotTest {
         Depot d = new Depot(12);
         d.deposit(0);
         assertEquals(12, d.getBalance());
+    }
+
+    @Test
+    void testHasSufficientFunds_shouldReturnTrue_whenSufficientFundsAvailable() {
+        Depot d = new Depot(50);
+        assertTrue(d.hasSufficientFunds(50));
+    }
+
+    @Test
+    void testHasSufficientFunds_shouldReturnFalse_whenInsufficientFundsAvailable() {
+        Depot d = new Depot(50);
+        assertFalse(d.hasSufficientFunds(50.01));
     }
 }
