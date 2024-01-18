@@ -26,4 +26,18 @@ public class DepotTest {
         Depot d = new Depot(0.01);
         assertThrows(InsufficientFundsException.class, () -> d.withdraw(0.02));
     }
+
+    @Test
+    void testDeposit_shouldIncreaseBalance_whenAmountIsGreaterZero() {
+        Depot d = new Depot(0);
+        d.deposit(50);
+        assertEquals(50, d.getBalance());
+    }
+
+    @Test
+    void testDeposit_shouldNotIncreaseBalance_whenAmountIsZero() {
+        Depot d = new Depot(12);
+        d.deposit(0);
+        assertEquals(12, d.getBalance());
+    }
 }
