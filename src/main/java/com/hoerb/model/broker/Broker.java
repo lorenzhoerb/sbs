@@ -16,6 +16,7 @@ public class Broker implements IBroker {
 
     private static final Logger logger = LogManager.getLogger();
     private final Map<String, Account> accounts = new HashMap<>();
+    private final Map<String, Security> securities = new HashMap<>();
 
     @Override
     public Order placeOrder(Order order) throws OrderPlacementException {
@@ -66,12 +67,25 @@ public class Broker implements IBroker {
 
     @Override
     public List<Security> getSecurities() {
-        return null;
+        return securities.values().stream().toList();
+    }
+
+    @Override
+    public boolean addSecurity(Security security) {
+        logger.info("Adding new security: {}", security.getSymbol());
+        if (securities.containsKey(security.getSymbol())) {
+            return false;
+        }
+        securities.put(security.getSymbol(), security);
+        return true;
     }
 
     @Override
     public Security getSecurity(String symbol) throws SecurityNotFoundException {
-        return null;
+        if (!securities.containsKey(symbol)) {
+            throw new SecurityNotFoundException();
+        }
+        return securities.get(symbol);
     }
 
     @Override

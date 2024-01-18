@@ -1,7 +1,10 @@
 import com.hoerb.exception.AccountNotFoundException;
+import com.hoerb.exception.SecurityNotFoundException;
 import com.hoerb.model.Account;
 import com.hoerb.model.broker.Broker;
 import com.hoerb.model.broker.IBroker;
+import com.hoerb.model.securities.Security;
+import com.hoerb.model.securities.Stock;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -114,4 +117,73 @@ public class BrokerTest {
                 () -> assertFalse(returns.get(1))
         );
     }
+
+    @Test
+    void testAddSecurity_shouldAddSecurityAndReturnTrue_whenSecurityNotAlreadyExist() {
+        final String SYMBOL = "NVDA";
+        IBroker broker = new Broker();
+        Security a = new Stock(SYMBOL, 10);
+
+        assertAll(
+                () -> assertTrue(broker.addSecurity(a)),
+                () -> assertEquals(a, broker.getSecurity(SYMBOL))
+        );
+    }
+
+    @Test
+    void testAddSecurity_shouldAddSecurityAndReturnFalse_whenSecurityAlreadyExisted() {
+        final String SYMBOL = "NVDA";
+        IBroker broker = new Broker();
+        Security a = new Stock(SYMBOL, 10);
+
+        broker.addSecurity(a);
+
+        assertAll(
+                () -> assertFalse(broker.addSecurity(a)),
+                () -> assertEquals(a, broker.getSecurity(SYMBOL))
+        );
+    }
+
+    @Test
+    void testGetSecurity_shouldGetSecurity_whenSecurityExists() throws Exception {
+        final String SYMBOL = "NVDA";
+        IBroker broker = new Broker();
+        Security a = new Stock(SYMBOL, 10);
+
+        broker.addSecurity(a);
+
+        assertEquals(a, broker.getSecurity(a.getSymbol()));
+    }
+
+    @Test
+    void testGetSecurity_shouldThrowSecurityNotFound_whenSecurityDoesNotExists() {
+        IBroker broker = new Broker();
+        assertThrows(SecurityNotFoundException.class, () -> broker.getSecurity("a1"));
+    }
+
+    @Test
+    void testGetSecurities_shouldReturnNull_whenNoSecuritiesArePresent() {
+        IBroker broker = new Broker();
+        assertEquals(0, broker.getSecurities().size());
+    }
+
+    @Test
+    void testGetSecurities_shouldReturnSecurities() {
+        IBroker broker = new Broker();
+        Security a = new Stock("a", 10);
+        Security b = new Stock("b", 10);
+
+        broker.addSecurity(a);
+        broker.addSecurity(b);
+
+        List<Security> securities = broker.getSecurities();
+
+        assertAll(
+                () -> assertNotNull(securities),
+                () -> assertEquals(2, securities.size()),
+                () -> assertTrue(securities.contains(a)),
+                () -> assertTrue(securities.contains(b))
+        );
+    }
+
 }

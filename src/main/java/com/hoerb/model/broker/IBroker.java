@@ -88,6 +88,14 @@ public interface IBroker {
     List<Security> getSecurities();
 
     /**
+     * Adds a new security to the broker.
+     *
+     * @param security The security to be added.
+     * @return {@code true} if the security is successfully added; {@code false} if the security already exists.
+     */
+    boolean addSecurity(Security security);
+
+    /**
      * Retrieves the security with the specified symbol from the broker.
      *
      * @param symbol The symbol identifying the security.
