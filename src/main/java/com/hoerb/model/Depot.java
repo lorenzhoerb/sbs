@@ -42,8 +42,7 @@ public class Depot {
      * @return {@code true} if the depot has sufficient funds, {@code false} otherwise.
      */
     public boolean hasSufficientFunds(double amount) {
-        //TODO: Implement
-        throw new UnsupportedOperationException("This method is not implemented yet");
+        return balance - amount >= 0;
     }
 
     public double getBalance() {
