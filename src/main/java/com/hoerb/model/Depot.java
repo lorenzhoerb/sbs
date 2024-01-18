@@ -20,8 +20,10 @@ public class Depot {
      * @throws InsufficientFundsException If the withdrawal cannot be completed due to insufficient funds.
      */
     public void withdraw(double amount) throws InsufficientFundsException {
-        //TODO: Implement
-        throw new UnsupportedOperationException("This method is not implemented yet");
+        double newBalance = balance - amount;
+        if (newBalance < 0)
+            throw new InsufficientFundsException("Withdrawal failed: Insufficient funds. Your current balance is €" + balance);
+        balance = newBalance;
     }
 
     /**
