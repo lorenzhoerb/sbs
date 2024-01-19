@@ -120,7 +120,13 @@ public class Broker implements IBroker {
 
     @Override
     public MarketPrice getMarketPrice(String symbol) throws SecurityNotFoundException {
-        return null;
+        if (!securities.containsKey(symbol)) {
+            throw new SecurityNotFoundException("Security with symbol '" + symbol + "' not found.");
+        }
+        return new MarketPrice(
+                symbol,
+                securities.get(symbol).getPrice()
+        );
     }
 
     private void validateOrderPlacement(Order order) throws OrderPlacementException {
