@@ -59,7 +59,7 @@ public class Broker implements IBroker {
 
     @Override
     public List<Order> getOrders() {
-        return null;
+        return orderBook.getOpenOrders();
     }
 
     @Override
