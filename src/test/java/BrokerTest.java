@@ -1,12 +1,17 @@
 import com.hoerb.exception.AccountNotFoundException;
+import com.hoerb.exception.OrderPlacementException;
 import com.hoerb.exception.SecurityNotFoundException;
 import com.hoerb.model.Account;
+import com.hoerb.model.Order;
+import com.hoerb.model.OrderAction;
+import com.hoerb.model.OrderType;
 import com.hoerb.model.broker.Broker;
 import com.hoerb.model.broker.IBroker;
 import com.hoerb.model.securities.Security;
 import com.hoerb.model.securities.Stock;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -186,4 +191,29 @@ public class BrokerTest {
         );
     }
 
+    @Test
+    void testPlaceOrder_shouldThrowOrderPlacementException_whenOrderIsNull() {
+        IBroker broker = new Broker();
+        assertThrows(OrderPlacementException.class, () -> broker.placeOrder(null));
+    }
+
+    @Test
+    void testPlaceOrder_shouldPlaceOrder_whenEverythingIsValid() throws Exception {
+        IBroker broker = new Broker();
+        Security s = new Stock("NVDA", 1);
+        Account a = new Account("a");
+
+        broker.addAccount(a);
+        broker.addSecurity(s);
+
+        Order o = new Order(a, s, OrderAction.SELL, OrderType.MARKET_ORDER, 1, 1);
+
+        var orderPlaced = broker.placeOrder(o);
+
+        assertAll(
+                () -> assertNotNull(orderPlaced),
+                () -> assertEquals(o, orderPlaced),
+                () -> assertTrue(o.getPlacementTimestamp().isBefore(LocalDateTime.now()))
+        );
+    }
 }

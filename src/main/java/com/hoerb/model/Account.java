@@ -2,10 +2,7 @@ package com.hoerb.model;
 
 import com.hoerb.model.securities.Security;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The {@code Account} class represents a user account within a financial system.
@@ -14,7 +11,7 @@ import java.util.Map;
 public class Account {
     private final String accountName;
     private final Depot depot;
-    private final List<Order> orderHistory = new ArrayList<>();
+    private final Set<Order> orderHistory = new HashSet<>();
     private final Map<Security, Integer> securityHoldings = new HashMap<>();
 
     public Account(String accountName) {
@@ -31,12 +28,16 @@ public class Account {
         return accountName;
     }
 
+    public boolean addOrder(Order order) {
+        return orderHistory.add(order);
+    }
+
     public Depot getDepot() {
         return depot;
     }
 
     public List<Order> getOrderHistory() {
-        return orderHistory;
+        return orderHistory.stream().toList();
     }
 
     public Map<Security, Integer> getSecurityHoldings() {

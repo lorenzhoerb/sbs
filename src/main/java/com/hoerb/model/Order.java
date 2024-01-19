@@ -12,25 +12,29 @@ public class Order {
     private final Account account;
     private final Security security;
     private final OrderType orderType;
+
+    private final OrderAction orderAction;
     private final int quantity;
     private final double price;
 
-    private final LocalDateTime orderCreated;
-    private LocalDateTime orderExecuted;
+    private final LocalDateTime creationTimestamp;
+    private LocalDateTime placementTimestamp;
+    private LocalDateTime executionTimestamp;
+    private LocalDateTime expireTimestamp;
     private boolean executed = false;
 
-    public Order(Account account, Security security, OrderType orderType, int quantity, double price) {
+    public Order(Account account, Security security, OrderAction orderAction, OrderType orderType, int quantity, double price) {
         this.account = account;
         this.security = security;
+        this.orderAction = orderAction;
         this.orderType = orderType;
         this.quantity = quantity;
         this.price = price;
-        orderCreated = LocalDateTime.now();
+        creationTimestamp = LocalDateTime.now();
     }
 
     public boolean isOpen() {
-        //TODO: implement
-        return false;
+        return !executed && LocalDateTime.now().isBefore(expireTimestamp);
     }
 
     public Account getAccount() {
@@ -53,19 +57,47 @@ public class Order {
         return price;
     }
 
-    public LocalDateTime getOrderCreated() {
-        return orderCreated;
+    public LocalDateTime getCreationTimestamp() {
+        return creationTimestamp;
     }
 
     public LocalDateTime getOrderExecuted() {
-        return orderExecuted;
+        return executionTimestamp;
     }
 
     public boolean isExecuted() {
         return executed;
     }
 
+    public LocalDateTime getPlacementTimestamp() {
+        return placementTimestamp;
+    }
+
+    public void setPlacementTimestamp(LocalDateTime placementTimestamp) {
+        this.placementTimestamp = placementTimestamp;
+    }
+
+    public LocalDateTime getExecutionTimestamp() {
+        return executionTimestamp;
+    }
+
+    public void setExecutionTimestamp(LocalDateTime executionTimestamp) {
+        this.executionTimestamp = executionTimestamp;
+    }
+
+    public LocalDateTime getExpireTimestamp() {
+        return expireTimestamp;
+    }
+
+    public void setExpireTimestamp(LocalDateTime expireTimestamp) {
+        this.expireTimestamp = expireTimestamp;
+    }
+
     public void setExecuted(boolean executed) {
         this.executed = executed;
+    }
+
+    public OrderAction getOrderAction() {
+        return orderAction;
     }
 }

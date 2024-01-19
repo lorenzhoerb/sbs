@@ -24,7 +24,7 @@ public class OrderBookTest {
     public static void setUpClass() {
         security = new Stock(SYMBOL_1, 13);
         security2 = new Stock(SYMBOL_2, 13);
-        order = new Order(null, security, null, 1, 23);
+        order = new Order(null, security, null, null, 1, 23);
     }
 
     @BeforeEach
@@ -72,7 +72,7 @@ public class OrderBookTest {
     @Test
     void testAddOrder_shouldAddOrderInCorrectSecurityList_whenSecurityListExists() throws Exception {
         orderBook.addSecurity(SYMBOL_1);
-        orderBook.addOrder(new Order(null, security, null, 1, 1));
+        orderBook.addOrder(new Order(null, security, null, null, 1, 1));
         var addOrderResult = orderBook.addOrder(order);
         var orders = orderBook.getAllOrders(security.getSymbol());
         assertAll(
@@ -91,7 +91,7 @@ public class OrderBookTest {
     void testGetAllOrders_shouldGetAllOrders_whenOrdersWithDifferentSecurities() {
         orderBook.addSecurity(SYMBOL_1);
         orderBook.addSecurity(SYMBOL_2);
-        var order2 = new Order(null, security2, null, 1, 1);
+        var order2 = new Order(null, security2, null, null, 1, 1);
 
         orderBook.addOrder(order);
         orderBook.addOrder(order2);
@@ -118,8 +118,8 @@ public class OrderBookTest {
     void testGetAllOrdersOfSecurity_shouldOnlyReturnOrdersOfGivenSecurity() throws Exception {
         orderBook.addSecurity(SYMBOL_1);
         orderBook.addSecurity(SYMBOL_2);
-        var order2 = new Order(null, security2, null, 1, 1);
-        var order3 = new Order(null, security2, null, 1, 1);
+        var order2 = new Order(null, security2, null, null, 1, 1);
+        var order3 = new Order(null, security2, null, null, 1, 1);
 
         orderBook.addOrder(order);
         orderBook.addOrder(order2);
@@ -145,7 +145,7 @@ public class OrderBookTest {
     void testGetAllOrdersOfSecurity_shouldReturnEmptyList_whenNoOrdersForSecurityInOrderBook() throws Exception {
         orderBook.addSecurity(SYMBOL_1);
         orderBook.addSecurity(SYMBOL_2);
-        orderBook.addOrder(new Order(null, security2, null, 1, 1));
+        orderBook.addOrder(new Order(null, security2, null, null, 1, 1));
 
         var resultOrdersOfSecurity1 = orderBook.getAllOrders(SYMBOL_1);
 
@@ -169,8 +169,8 @@ public class OrderBookTest {
     @Test
     void testGetOpenOrders_shouldReturnOpenOrders() {
         Order s1Open = spy(order);
-        Order o1S1 = new Order(null, security, null, 1, 1);
-        Order o2s2 = new Order(null, security2, null, 1, 1);
+        Order o1S1 = new Order(null, security, null, null, 1, 1);
+        Order o2s2 = new Order(null, security2, null, null, 1, 1);
 
         Order s1Closed = spy(o1S1);
         Order s2Open = spy(o2s2);
@@ -199,8 +199,8 @@ public class OrderBookTest {
     @Test
     void testGetOpenOrdersOfSecurity_shouldReturnOpenOrders() throws Exception {
         Order s1Open = spy(order);
-        Order o1S1 = new Order(null, security, null, 1, 1);
-        Order o2s2 = new Order(null, security2, null, 1, 1);
+        Order o1S1 = new Order(null, security, null, null, 1, 1);
+        Order o2s2 = new Order(null, security2, null, null, 1, 1);
 
         Order s1Closed = spy(o1S1);
         Order s2Open = spy(o2s2);

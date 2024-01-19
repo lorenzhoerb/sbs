@@ -4,9 +4,7 @@ import com.hoerb.model.Order;
 import com.hoerb.model.PriceEntry;
 import com.hoerb.model.orderBook.IOrderBook;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * The {@code Security} class is an abstract base class representing a
@@ -23,6 +21,7 @@ public abstract class Security {
     private double price;
     private final String symbol;
     private final List<PriceEntry> priceHistory = new ArrayList<>();
+    private final Set<Order> orderHistory = new HashSet<>();
 
     private final IOrderBook orderBook;
 
@@ -48,6 +47,10 @@ public abstract class Security {
 
     public List<PriceEntry> getPriceHistory() {
         return priceHistory;
+    }
+
+    public boolean addOrder(Order order) {
+        return orderHistory.add(order);
     }
 
     /**

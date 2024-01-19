@@ -26,15 +26,16 @@ public interface IBroker {
     /**
      * Places a new order with the broker using the specified parameters.
      *
-     * @param account     The account associated with the order.
-     * @param orderAction The action to be performed (e.g., Buy or Sell).
-     * @param orderType   The type of the order (e.g., Market or Limit).
-     * @param quantity    The quantity of the asset to be bought or sold.
-     * @param price       The price at which the asset should be bought or sold (applicable for Limit orders).
+     * @param securitySymbol The symbol of the security to be traded.
+     * @param account        The account associated with the order.
+     * @param orderAction    The action to be performed (e.g., Buy or Sell).
+     * @param orderType      The type of the order (e.g., Market or Limit).
+     * @param quantity       The quantity of the asset to be bought or sold.
+     * @param price          The price at which the asset should be bought or sold (applicable for Limit orders).
      * @return The order after being placed, including any updates or additional information provided by the broker.
      * @throws OrderPlacementException If the order placement fails.
      */
-    Order placeOrder(Account account, OrderAction orderAction, OrderType orderType, int quantity, double price) throws OrderPlacementException;
+    Order placeOrder(String securitySymbol, Account account, OrderAction orderAction, OrderType orderType, int quantity, double price) throws OrderPlacementException;
 
     /**
      * Retrieves a list of all active orders within the broker.
