@@ -28,6 +28,11 @@ public class Order {
         orderCreated = LocalDateTime.now();
     }
 
+    public boolean isOpen() {
+        //TODO: implement
+        return false;
+    }
+
     public Account getAccount() {
         return account;
     }
